@@ -41,10 +41,9 @@
 
         #city { font-size: 1rem; color: var(--ios-gray); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 5px; }
         
-        /* Temperatura Fina (No negrita) */
         #temp { 
             font-size: 8.5rem; 
-            font-weight: 100; /* Extra fina estilo iOS */
+            font-weight: 100; 
             margin: 0; 
             letter-spacing: -5px; 
         }
@@ -82,8 +81,10 @@
             align-items: center;
             cursor: pointer;
             box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            transition: transform 0.2s;
         }
 
+        .btn:active { transform: scale(0.95); }
         .btn-spotify { background: #1DB954; color: white; }
         .btn-ytmusic { background: #ff0000; color: white; }
         svg { width: 55px; height: 55px; fill: currentColor; }
@@ -98,10 +99,11 @@
     </div>
 
     <div class="right-panel">
-        <button class="btn btn-spotify" onclick="window.location.href='https://open.spotify.com/section/0JQ5DAqbVfvxThnU98GE7m?autoplay=true'">
+        <button class="btn btn-spotify" onclick="window.location.href='https://open.spotify.com/'">
             <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.494 17.306c-.216.353-.672.464-1.024.249-2.812-1.718-6.351-2.106-10.518-1.154-.403.092-.81-.161-.902-.564-.092-.403.161-.81.564-.902 4.564-1.042 8.486-.594 11.63 1.326.353.215.464.671.25 1.025zm1.467-3.259c-.272.443-.847.585-1.29.313-3.22-1.977-8.125-2.55-11.93-1.396-.499.151-1.025-.133-1.177-.632-.151-.499.133-1.025.632-1.177 4.354-1.321 9.774-.673 13.453 1.585.443.272.585.847.312 1.29zm.126-3.415C15.226 8.35 8.847 8.138 5.16 9.256c-.576.175-1.18-.153-1.355-.73-.175-.576.153-1.18.73-1.355 4.225-1.284 11.275-1.034 15.716 1.602.518.308.687.978.379 1.496-.308.518-.978.687-1.496.379z"/></svg>
         </button>
-        <button class="btn btn-ytmusic" onclick="window.location.href='https://music.youtube.com/playlist?list=RDAMVMdQw4w9WgXcQ&autoplay=1'">
+        
+        <button class="btn btn-ytmusic" onclick="window.location.href='https://music.youtube.com/'">
             <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-12.5v9l7.5-4.5z"/></svg>
         </button>
     </div>
@@ -130,10 +132,10 @@
                         badge.className = "status-badge bad";
                     }
                 }
-            } catch (e) { console.log("Error de red"); }
+            } catch (e) { console.log("Error de conexión"); }
         }
         updateWeather();
-        setInterval(updateWeather, 600000);
+        setInterval(updateWeather, 600000); // 10 minutos
     </script>
 </body>
 </html>
