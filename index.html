@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#000000">
-    
     <title>GabyTronicX Hub</title>
     <style>
         :root {
@@ -15,14 +12,13 @@
             --ios-card: #1c1c1e;
             --ios-green: #30d158;
             --ios-red: #ff453a;
-            --ios-blue: #0a84ff;
             --ios-text: #ffffff;
         }
 
         body {
             background-color: var(--ios-bg);
             color: var(--ios-text);
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, sans-serif;
             margin: 0;
             display: flex;
             height: 100vh;
@@ -30,18 +26,29 @@
             overflow: hidden;
         }
 
+        /* LUZ FRONTAL (OCULTA) */
+        #flash-light {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #ffffff;
+            display: none;
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        #flash-light span { color: #000; font-weight: bold; font-size: 1.5rem; }
+
         .left-panel {
             flex: 2;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-right: 1px solid #333;
             padding: 20px;
         }
 
-        #city { color: #8e8e93; letter-spacing: 2px; font-size: 0.9rem; text-transform: uppercase; }
-        #temp { font-size: 8rem; font-weight: 200; margin: 0; letter-spacing: -4px; }
+        #temp { font-size: 8rem; font-weight: 200; margin: 0; }
         
         .status-badge {
             padding: 15px 30px;
@@ -49,11 +56,9 @@
             font-size: 1.2rem;
             font-weight: 600;
             margin-top: 20px;
-            border: 1px solid transparent;
-            transition: 0.5s;
         }
-        .good { background-color: rgba(48, 209, 88, 0.1); color: var(--ios-green); border-color: var(--ios-green); }
-        .bad { background-color: rgba(255, 69, 58, 0.1); color: var(--ios-red); border-color: var(--ios-red); }
+        .good { background-color: rgba(48, 209, 88, 0.1); color: var(--ios-green); border: 1px solid var(--ios-green); }
+        .bad { background-color: rgba(255, 69, 58, 0.1); color: var(--ios-red); border: 1px solid var(--ios-red); }
 
         .right-panel {
             flex: 1;
@@ -72,27 +77,27 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            transition: 0.2s;
         }
-        .btn:active { transform: scale(0.9); }
         .btn-flash { background: #3a3a3c; color: #ffd60a; font-size: 3rem; }
         .btn-music { background: #ff453a; color: white; }
-        svg { width: 55px; height: 55px; fill: currentColor; }
+        svg { width: 50px; height: 50px; fill: currentColor; }
     </style>
 </head>
 <body>
 
+    <div id="flash-light" onclick="toggleFlash()">
+        <span>TOCA PARA VOLVER</span>
+    </div>
+
     <div class="left-panel">
-        <div id="city">SANTO DOMINGO</div>
+        <div style="color:#8e8e93; letter-spacing:2px;">SANTO DOMINGO</div>
         <div id="temp">--°</div>
-        <div id="status-text" class="status-badge">CONECTANDO...</div>
+        <div id="status-text" class="status-badge">Sincronizando...</div>
     </div>
 
     <div class="right-panel">
-        <button class="btn btn-flash" onclick="abrirCamara()">⚡</button>
-        
+        <button class="btn btn-flash" onclick="toggleFlash()">⚡</button>
         <button class="btn btn-music" onclick="window.location.href='https://music.youtube.com'">
             <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-12.5v9l7.5-4.5z"/></svg>
         </button>
@@ -112,7 +117,6 @@
                     const hour = new Date().getHours();
                     const badge = document.getElementById('status-text');
 
-                    // Lógica: 6am a 3pm y sin lluvia
                     const isRainy = /Rain|Drizzle|Thunderstorm/i.test(condition);
                     const isLaundryTime = (hour >= 6 && hour < 15);
 
@@ -124,16 +128,16 @@
                         badge.className = "status-badge bad";
                     }
                 }
-            } catch (e) { console.log("Error de conexión"); }
+            } catch (e) { console.log("Error"); }
         }
 
-        function abrirCamara() {
-            // Este comando lanza la cámara nativa en Android
-            window.location.href = "intent://#Intent;action=android.media.action.STILL_IMAGE_CAMERA;end";
+        function toggleFlash() {
+            const overlay = document.getElementById('flash-light');
+            overlay.style.display = (overlay.style.display === "flex") ? "none" : "flex";
         }
 
         getClima();
-        setInterval(getClima, 600000); // Actualiza cada 10 min
+        setInterval(getClima, 600000);
     </script>
 </body>
 </html>
